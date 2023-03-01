@@ -14,9 +14,11 @@ If you find our work useful in your research, please consider [citing](#citing).
 
 ## Installation
 
-1. Create a conda environment.
+Hướng dẫn dựa trên Ubuntu 20.04 (cài đặt trực tiếp, không thông qua máy ảo).
 
-2. Install packages list in [requirements.txt](requirements.txt). Then install `torch-scatter` following [here](https://github.com/rusty1s/pytorch_scatter), based on `pytorch` version and `cuda` version.
+1. Create a conda environment (khuyến khích tạo môi trường bằng file GIGA.yml)
+
+2. Install packages list in [requirements.txt](requirements.txt). Then install `torch-scatter` following [here](https://github.com/rusty1s/pytorch_scatter), based on `pytorch` version and `cuda` version. Lưu ý: nếu tạo môi trường bằng file GIGA.yml chỉ cần kiểm tra thư viện torch-scatter bằng cách chạy `python test_torch-scatter.py`, nếu file chạy không báo lỗi là hoàn thành.
 
 3. Go to the root directory and install the project locally using `pip`
 
@@ -35,12 +37,12 @@ pip install -e .
 Pile scenario:
 
 ```bash
-python scripts/generate_data_parallel.py --scene pile --object-set pile/train --num-grasps 4000000 --num-proc 40 --save-scene ./data/pile/data_pile_train_random_raw_4M
+python scripts/generate_data_parallel.py --scene pile --object-set pile/train --num-grasps 4000000 --num-proc 1 --save-scene ./data/pile/data_pile_train_random_raw_4M
 ```
 
 Packed scenario:
 ```bash
-python scripts/generate_data_parallel.py --scene packed --object-set packed/train --num-grasps 4000000 --num-proc 40 --save-scene ./data/pile/data_packed_train_random_raw_4M
+python scripts/generate_data_parallel.py --scene packed --object-set packed/train --num-grasps 4000000 --num-proc 1 --save-scene ./data/pile/data_packed_train_random_raw_4M
 ```
 
 Please run `python scripts/generate_data_parallel.py -h` to print all options.
@@ -56,7 +58,7 @@ python scripts/clean_balance_data.py /path/to/raw/data
 Then construct the dataset (add noise):
 
 ```bash
-python scripts/construct_dataset_parallel.py --num-proc 40 --single-view --add-noise dex /path/to/raw/data /path/to/new/data
+python scripts/construct_dataset_parallel.py --num-proc 1 --single-view --add-noise dex /path/to/raw/data /path/to/new/data
 ```
 
 ### Save occupancy data
@@ -64,7 +66,7 @@ python scripts/construct_dataset_parallel.py --num-proc 40 --single-view --add-n
 Sampling occupancy data on the fly can be very slow and block the training, so I sample and store the occupancy data in files beforehand:
 
 ```bash
-python scripts/save_occ_data_parallel.py /path/to/raw/data 100000 2 --num-proc 40
+python scripts/save_occ_data_parallel.py /path/to/raw/data 100000 1 --num-proc 1
 ```
 
 Please run `python scripts/save_occ_data_parallel.py -h` to print all options.
